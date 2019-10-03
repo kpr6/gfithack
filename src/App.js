@@ -12,25 +12,28 @@ class App extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {doclist: ''}
+    this.state = {doclist: '', query: ''}
     this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
   handleChange(event) {
+    this.setState({query: event.target.value});
+  }
+  async handleSubmit(event) {
     if(event.key == 'Enter'){
-      fetch('http://localhost:5000/doclist', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({msg: event.target.value})
-      })
-      .then(res => res.json())
-      .then((result) => {
-        console.log(result)
-        this.setState({doclist: result})
-      })
-      console.log(event.target.value)
+      const message = event.target.value
+      console.log("react here")
+      const rawResponse = await fetch('http://localhost:5000/doclist', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({msg: message})
+    })
+    const content = await rawResponse.json();
+    console.log(content)
+    // this.setState({doclist: content['list']})
     }
   }
   render() {
@@ -47,13 +50,13 @@ class App extends React.Component {
               <Form.Group controlId="formBasicSearch">
                 <Form.Label>Intellisense Documents filter</Form.Label>
                 <Form.Control type="input" 
-                              // value={this.state.query} 
-                              // onChange={this.handleChange} 
+                              value={this.state.query} 
+                              onChange={this.handleChange} 
                               placeholder="Search with spaced keywords"
-                              onKeyPress={this.handleChange} 
+                              onKeyPress={this.handleSubmit} 
                               />
                 <Form.Text className="text-muted">
-                  Eg: hkma ler regulatory
+                  Eg: trump imran
                 </Form.Text>
               </Form.Group>
             </Form>
