@@ -19,27 +19,31 @@ class App extends React.Component {
   handleChange(event) {
     this.setState({query: event.target.value});
   }
-  async handleSubmit(event) {
+  handleSubmit(event) {
     if(event.key == 'Enter'){
-      const message = event.target.value
       console.log("react here")
-      const rawResponse = await fetch('http://localhost:5000/doclist', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({msg: message})
-    })
-    const content = await rawResponse.json();
-    console.log(content)
-    // this.setState({doclist: content['list']})
+      fetch('http://localhost:5000/doclist', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({msg: event.target.value})
+      })
+      .then(res => {console.log("fetch done");res.json()})
+      .then((result) => {
+        console.log(result)
+        this.setState({doclist: result['list']})
+      });
     }
   }
+  
   render() {
     const doclist = this.state.doclist;
+    console.log(doclist);
     let docs;
     if(doclist){
+      console.log("herejsdbvkjfbvkjabfksvbafkbk")
       docs = <DocsContainer docNames={this.state.doclist}/>
     }
     return (
@@ -56,7 +60,7 @@ class App extends React.Component {
                               onKeyPress={this.handleSubmit} 
                               />
                 <Form.Text className="text-muted">
-                  Eg: trump imran
+                  Eg: hkma ler regulatory
                 </Form.Text>
               </Form.Group>
             </Form>

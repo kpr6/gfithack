@@ -24,9 +24,10 @@ class DocSummary extends React.Component {
 
     componentDidMount(){
         console.log("Im here")
+        console.log(this.props.docName)
         fetch('http://localhost:5000/docsummary?name=' + this.props.docName)
         .then(res => res.json())
-        .then((result) => this.setState({summary: result}))
+        .then((result) => this.setState({summary: result['summary']}))
     }
 
     render() {
