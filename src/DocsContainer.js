@@ -40,9 +40,9 @@ class DocSummary extends React.Component {
 }
 
 export default class DocsContainer extends React.Component {
-    constructor(props){
-        super(props)
-    }
+    // constructor(props){
+    //     super(props)
+    // }
     render(){
         return(
             <Tab.Container id="left-tabs-example" defaultActiveKey="first">

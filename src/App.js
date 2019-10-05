@@ -23,7 +23,6 @@ class App extends React.Component {
     if(event.key == 'Enter'){
       event.preventDefault()
       const message = event.target.value
-      console.log("message "+event.target.value)
       const rawResponse = await fetch('http://localhost:5000/doclist', {
       method: 'POST',
       headers: {
@@ -33,17 +32,16 @@ class App extends React.Component {
       body: JSON.stringify({msg: message})
     });
     const content = await rawResponse.json();
-    console.log("content "+content)
+    // console.log("content "+content)
     this.setState({doclist: content})
     }
   }
   
   render() {
     const doclist = this.state.doclist;
-    console.log(doclist)
     let docs;
     if(doclist){
-      console.log("inside loop " + doclist)
+      // console.log("inside loop " + doclist)
       docs = <DocsContainer docNames={this.state.doclist.split(",")}/>
     }
     return (
