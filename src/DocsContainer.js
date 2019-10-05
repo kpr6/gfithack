@@ -42,25 +42,19 @@ class DocSummary extends React.Component {
 export default class DocsContainer extends React.Component {
     constructor(props){
         super(props)
-        this.state = {
-            docs: this.props.docNames.split(",")
-        }
-        console.log(this.state.docs)
     }
     render(){
-        let doclinks = this.state.docs.map((doc, i) => <Doc docName={doc} docid={i}/>)
-        let docSummaries = this.state.docs.map((doc, i) => <DocSummary docName={doc} docid={i}/>)
         return(
             <Tab.Container id="left-tabs-example" defaultActiveKey="first">
                 <Row>
                     <Col sm={3}>
                     <Nav variant="pills" className="flex-column">
-                        {doclinks}
+                        {this.props.docNames.map((doc, i) => <Doc docName={doc} docid={i}/>)}
                     </Nav>
                     </Col>
                     <Col sm={9}>
                     <Tab.Content>
-                        {docSummaries}
+                        {this.props.docNames.map((doc, i) => <DocSummary docName={doc} docid={i}/>)}
                     </Tab.Content>
                     </Col>
                 </Row>

@@ -21,7 +21,6 @@ def create_connection(db_file):
     return conn
 
 @app.route("/doclist", methods=['POST'])
-# @cross_origin()
 def doclist():
     content = request.get_json()
     tags = str(content['msg']).strip().split(" ")
@@ -38,13 +37,12 @@ def doclist():
             filenames.append(row[0])
     print(",".join(filenames))
     conn.close()
-    return jsonify({"list": ",".join(filenames)})
+    return jsonify(",".join(filenames))
 
 @app.route("/docsummary", methods=['GET', 'POST'])
-# @cross_origin()
 def docsummary():
     filename = str(request.args.get('name'))
-    print(filename)
+    # print(filename)
     with open(os.path.join('backend/db/articles', filename)) as f:
         summary = summarize(f.read())
     return jsonify({"summary": summary})
